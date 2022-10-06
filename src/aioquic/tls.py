@@ -1126,6 +1126,7 @@ class Context:
         self._max_early_data = max_early_data
         self.session_ticket: Optional[SessionTicket] = None
         self._server_name = server_name
+        self._client_hello_server_name = server_name
         if verify_mode is not None:
             self._verify_mode = verify_mode
         else:
@@ -1579,6 +1580,7 @@ class Context:
         onertt_buf: Buffer,
     ) -> None:
         peer_hello = pull_client_hello(input_buf)
+        self._client_hello_server_name = peer_hello.server_name
 
         # determine applicable signature algorithms
         signature_algorithms: List[SignatureAlgorithm] = []
