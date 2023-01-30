@@ -755,6 +755,7 @@ class QuicConnection:
                 and self._state == QuicConnectionState.FIRSTFLIGHT
                 and header.version == QuicProtocolVersion.NEGOTIATION
                 and not self._version_negotiation_count
+                and not self.client_hello_only
             ):
                 # version negotiation
                 versions = []
@@ -994,6 +995,8 @@ class QuicConnection:
                 is_ack_eliciting, is_probing = self._payload_received(
                     context, plain_payload
                 )
+                if self.client_hello_only:
+                    return
             except QuicConnectionError as exc:
                 self._logger.warning(exc)
                 self.close(
