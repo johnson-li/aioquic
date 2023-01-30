@@ -379,6 +379,8 @@ class QuicConnection:
         self._session_ticket_fetcher = session_ticket_fetcher
         self._session_ticket_handler = session_ticket_handler
 
+        self.client_hello_only = False
+
         # frame handlers
         self.__frame_handlers = {
             0x00: (self._handle_padding_frame, EPOCHS("IH01")),
@@ -1507,7 +1509,9 @@ class QuicConnection:
         if event is not None:
             # pass data to TLS layer
             try:
-                self.tls.handle_message(event.data, self._crypto_buffers)
+                self.tls.handle_message(event.data, self._crypto_buffers, self.client_hello_only)
+                if self.client_hello_only:
+                    return
                 self._push_crypto_data()
             except tls.Alert as exc:
                 raise QuicConnectionError(

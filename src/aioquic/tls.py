@@ -1205,7 +1205,7 @@ class Context:
         return self._session_resumed
 
     def handle_message(
-        self, input_data: bytes, output_buf: Dict[Epoch, Buffer]
+        self, input_data: bytes, output_buf: Dict[Epoch, Buffer], client_hello_only=False
     ) -> None:
         if self.state == State.CLIENT_HANDSHAKE_START:
             self._client_send_hello(output_buf[Epoch.INITIAL])
@@ -1270,6 +1270,7 @@ class Context:
                         output_buf[Epoch.INITIAL],
                         output_buf[Epoch.HANDSHAKE],
                         output_buf[Epoch.ONE_RTT],
+                        client_hello_only
                     )
                 else:
                     raise AlertUnexpectedMessage
@@ -1578,9 +1579,12 @@ class Context:
         initial_buf: Buffer,
         handshake_buf: Buffer,
         onertt_buf: Buffer,
+        client_hello_only = False
     ) -> None:
         peer_hello = pull_client_hello(input_buf)
         self._client_hello_server_name = peer_hello.server_name
+        if client_hello_only:
+            return
 
         # determine applicable signature algorithms
         signature_algorithms: List[SignatureAlgorithm] = []
