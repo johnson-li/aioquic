@@ -166,7 +166,7 @@ class QuicPacketBuilder:
         """
         Starts a new frame.
         """
-        print(f'Write frame: {frame_type}')
+        # print(f'Write frame: {frame_type}')
         if self.remaining_buffer_space < capacity or (
             frame_type not in NON_IN_FLIGHT_FRAME_TYPES
             and self.remaining_flight_space < capacity
