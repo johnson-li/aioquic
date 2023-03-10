@@ -731,6 +731,7 @@ class QuicConnection:
                 header = pull_quic_header(
                     buf, host_cid_length=self._configuration.connection_id_length
                 )
+                print(f'Receive header: {header}')
             except ValueError:
                 return
 
@@ -2269,6 +2270,7 @@ class QuicConnection:
         is_probing = None
         while not buf.eof():
             frame_type = buf.pull_uint_var()
+            print(f'Got frame: {frame_type}')
 
             # check frame type is known
             try:
