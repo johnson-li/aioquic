@@ -2270,7 +2270,10 @@ class QuicConnection:
         is_probing = None
         while not buf.eof():
             frame_type = buf.pull_uint_var()
-            # print(f'Got frame: {frame_type}')
+            try:
+                print(f'Got frame: {QuicFrameType(frame_type)}')
+            except Exception:
+                print(f'Got frame: {hex(frame_type)}')
 
             # check frame type is known
             try:
