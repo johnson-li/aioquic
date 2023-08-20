@@ -303,7 +303,7 @@ PARAMS = {
     0x0A: ("ack_delay_exponent", int),
     0x0B: ("max_ack_delay", int),
     0x0C: ("disable_active_migration", bool),
-    0x0D: ("preferred_address", QuicPreferredAddress),
+    # 0x0D: ("preferred_address", QuicPreferredAddress),
     0x0E: ("active_connection_id_limit", int),
     0x0F: ("initial_source_connection_id", bytes),
     0x10: ("retry_source_connection_id", bytes),
