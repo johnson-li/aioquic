@@ -735,6 +735,7 @@ class QuicConnection:
             except ValueError:
                 return
 
+            print(f'Receive header: {header}')
             # check destination CID matches
             destination_cid_seq: Optional[int] = None
             for connection_id in self._host_cids:
